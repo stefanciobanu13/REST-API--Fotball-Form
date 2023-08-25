@@ -17,6 +17,8 @@ public void savePlayer(Player player);
 
 	public void deletePlayer(int theId);
 
+	public Player findPlayerByName(String firstName, String lastName);
+
 
 
 

@@ -70,6 +70,12 @@ public class RestController {
 
         return "The player with the id " + " " + thePlayer.getId() +  " " + " was saved";
     }
+
+    @GetMapping("/players/name")
+    public Player findPlayerByName(@RequestParam String firstName, @RequestParam String lastName) {
+        return playerService.findPlayerByName(firstName, lastName);
+    }
+
     @GetMapping("/rounds")
     public List<RoundDTO> getRounds() {
         System.out.println("inside the get ROUND method from controller");
@@ -81,10 +87,17 @@ public class RestController {
         return roundService.getRound(roundId);
     }
 
+
     @DeleteMapping("/rounds/{roundId}")
     public String deleteRound(@PathVariable int roundId) {
         roundService.deleteRound(roundId);
         return "The round with the id " + roundId + " was deleted";
+    }
+
+    @DeleteMapping("/rounds/deleteByNumber/{roundNumber}")
+    public String deleteRoundByNumber(@PathVariable int roundNumber) {
+        roundService.deleteByNumber(roundNumber);
+        return "Round deleted";
     }
 
     @PutMapping("/rounds")
@@ -99,8 +112,10 @@ public class RestController {
         return "The round with the id " + roundDTO.getId() + " was saved";
     }
 
-
-    
+    @GetMapping("/rounds/number/{roundNumber}")
+    public Round findRoundByNumber(@PathVariable int roundNumber){
+        return roundService.findRoundByNumber(roundNumber);
+    }
 
 
     @GetMapping("/teams")
@@ -126,10 +141,31 @@ public class RestController {
         }
         return ResponseEntity.notFound().build();
     }
+
+    @GetMapping("/teams/fromRound")
+    public ResponseEntity<TeamDTO> getTeamFromRound(@RequestParam int roundId, @RequestParam String color) {
+        TeamDTO teamDTO = teamService2.getTeamFromRound(roundId, color);
+        if (teamDTO != null) {
+            return ResponseEntity.ok(teamDTO);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
     @DeleteMapping("/teams/{teamId}")
     public ResponseEntity<Void> deleteTeam(@PathVariable int teamId) {
         teamService2.deleteTeam(teamId);
         return ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping("/teams/deleteByRound/{roundId}")  // Corrected path variable name
+    public ResponseEntity<Void> deleteTeamsFromRound(@PathVariable int roundId) {
+        teamService2.deleteTeamsFromRound(roundId);
+        return ResponseEntity.noContent().build();  // Use noContent() instead of notFound()
+    }
+
+    @GetMapping("/teams/roundNumber/{roundNumber}")
+    public List<TeamDTO> getTeamsFromRound(@PathVariable int roundNumber) {
+        return teamService2.getTeamsFromRound(roundNumber);
     }
 
     @GetMapping("/team-players")

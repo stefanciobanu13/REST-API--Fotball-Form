@@ -54,6 +54,30 @@ public class TeamServiceImpl2 implements TeamService2 {
         teamDAO.deleteById(teamId);
     }
 
+    @Transactional
+    @Override
+    public List<TeamDTO> getTeamsFromRound(int roundNumber) {
+        List<Team> teams = teamDAO.getTeamsFromRound(roundNumber);
+
+        return teams.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    @Override
+    public TeamDTO getTeamFromRound(int roundId, String color) {
+        Team team = teamDAO.getTeamFromRound(roundId, color);
+        return convertToDto(team);
+    }
+
+
+    @Transactional
+    @Override
+    public void deleteTeamsFromRound(int roundId) {
+        teamDAO.deleteTeamsFromRound(roundId);
+    }
+
     private TeamDTO convertToDto(Team team) {
         return modelMapper.map(team, TeamDTO.class);
     }

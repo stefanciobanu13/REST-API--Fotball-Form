@@ -54,7 +54,15 @@ public class PlayerServiceImp implements PlayerService {
 
 	}
 
+	@Transactional
+	@Override
+	public Player findPlayerByName(String firstName, String lastName) {
 
+		Optional<Player> optionalPlayer = Optional.ofNullable(playerDAO.findPlayerByName(firstName, lastName));
+		Player player = optionalPlayer.get();
+
+		return player;
+	}
 
 
 }

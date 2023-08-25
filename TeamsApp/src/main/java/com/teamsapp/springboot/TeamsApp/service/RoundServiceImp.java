@@ -54,7 +54,15 @@ public class RoundServiceImp implements RoundService {
     }
 
     @Override
-    public Round findByRoundDate(String roundDate) {
-        return roundDAO.findByRoundDate(roundDate);
+    @Transactional
+    public Round findRoundByNumber(int roundNumber) {
+        return roundDAO.findRoundByNumber(roundNumber);
     }
+
+    @Override
+    @Transactional
+    public void deleteByNumber(int roundNumber) {
+        roundDAO.deleteByNumber(roundNumber);
+    }
+
 }

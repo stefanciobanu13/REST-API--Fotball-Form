@@ -1,6 +1,7 @@
 package com.teamsapp.springboot.TeamsApp.service;
 
 import com.teamsapp.springboot.TeamsApp.dao.TeamDAO;
+import com.teamsapp.springboot.TeamsApp.dto.TeamDTO;
 import com.teamsapp.springboot.TeamsApp.entity.Team;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,6 +44,20 @@ public class TeamServiceImp implements TeamService {
     public void deleteTeam(int theId) {
         teamDAO.deleteById(theId);
     }
+
+    @Transactional
+    @Override
+    public TeamDTO findTeamByColor(String color) {
+        return teamDAO.findTeamByColor(color);
+    }
+
+
+    @Transactional
+    @Override
+    public void deleteTeamsFromRound(int roundId) {
+        teamDAO.deleteTeamsFromRound(roundId);
+    }
+
 }
 
 
